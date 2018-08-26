@@ -1,0 +1,38 @@
+---
+layout: default
+title: Streamdata.io API Gallery - Twitter Handles
+---
+
+<style>
+  .topiccenter {
+      margin: auto;
+      width: 50%;
+      border: 0px solid #FFF;
+      padding: 10px;
+  }
+  .topiccenter ul{
+    width:760px;
+    overflow:hidden;
+  }
+  .topiccenter ul li{
+    line-height:1.5em;
+    float:left;
+    display:inline;
+  }
+  #double li  { width:50%;}
+  #triple li  { width:33.333%; }
+  #quad li    { width:25%; }
+  #six li     { width:16.666%; }
+</style>
+
+{% assign listing_object = site.listings %}
+{% assign tag_slug = "listings" %}
+
+<div class="largeImageCTA">
+  <div class="richText">
+    <div class="richText__container richText__container--thin">
+      <h2>Twitter Accounts</h2>
+      {% include api-twitter.html %}
+    </div>
+  </div>
+</div>

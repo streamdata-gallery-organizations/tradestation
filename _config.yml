@@ -1,0 +1,18 @@
+title: Streamdata API Gallery - TradeStation
+description: A gallery of APIs to demonstrate what is possible when it comes to making data, content, and algorithms more real time, and event-driven as part of the API economy.
+url: tradestation.streamdata.gallery
+tag: TradeStation
+markdown: kramdown
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", ".DS_Store"]
+github_user: streamdata-gallery-topics
+github_repo: tradestation
+github_branch: master
+collections:
+  listings:
+    output: true
+    permalink: /listings/:path/
+defaults:
+  - scope:
+      type: listings
+    values:
+      layout: listings

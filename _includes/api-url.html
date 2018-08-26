@@ -1,0 +1,9 @@
+{% assign api_base_url = api_host | append: api_base | append: path %}
+{% assign api_base_url = api_base_url | replace: '//','' %}
+{% assign api_url = api_scheme | append: '://' | append: api_base_url %}
+{% assign api_query = '' %}
+{% for parameter in api_path_parameters %}
+  {% if parameter.in == 'query' %}
+    {% assign api_query = api_query | append: '&' | append: parameter.name | append: '={field_value}' %}
+  {% endif %}
+{% endfor %}
