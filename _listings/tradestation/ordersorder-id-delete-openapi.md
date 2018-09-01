@@ -3,8 +3,8 @@ swagger: "2.0"
 x-collection-name: TradeStation
 x-complete: 0
 info:
-  title: TradeStation Get Symbols in a Symbol List
-  description: Gets the Symbols for a specific Symbol List
+  title: TradeStation Cancel Order
+  description: Cancels an open order. You cannot cancel an order that has been filled.
   termsOfService: http://elasticbeanstalk-us-east-1-525856068889.s3.amazonaws.com/wp-content/uploads/2014/03/Guidelines_For_Acceptance.pdf
   contact:
     name: TradeStation API Team
@@ -400,6 +400,193 @@ paths:
       - In
       - Symbol
       - List
+  /users/{user_id}/accounts:
+    get:
+      summary: Get User Accounts
+      description: Returns all accounts for the given user
+      operationId: getAccountsByUserID
+      x-api-path-slug: usersuser-idaccounts-get
+      parameters:
+      - in: query
+        name: access_token
+        description: A valid OAuth2 token used to authorize access to the resource
+      - in: path
+        name: user_id
+        description: User ID for Accounts Lookup
+      responses:
+        200:
+          description: Successful response
+      tags:
+      - User
+      - Accounts
+  /accounts/{account_keys}/balances:
+    get:
+      summary: Get Account Balances
+      description: Returns the Balance for the given accounts
+      operationId: getBalancesByAccounts
+      x-api-path-slug: accountsaccount-keysbalances-get
+      parameters:
+      - in: query
+        name: access_token
+        description: A valid OAuth2 token used to authorize access to the resource
+      - in: path
+        name: account_keys
+        description: 1 or more Account Keys
+      responses:
+        200:
+          description: Successful response
+      tags:
+      - Account
+      - Balances
+  /accounts/{account_keys}/positions:
+    get:
+      summary: Get Account Positions
+      description: Returns the Positions for the given accounts
+      operationId: getPositionsByAccounts
+      x-api-path-slug: accountsaccount-keyspositions-get
+      parameters:
+      - in: query
+        name: $filter
+        description: An OData v2
+      - in: query
+        name: access_token
+        description: A valid OAuth2 token used to authorize access to the resource
+      - in: path
+        name: account_keys
+        description: 1 or more Account Keys
+      responses:
+        200:
+          description: Successful response
+      tags:
+      - Account
+      - Positions
+  /accounts/{account_keys}/orders:
+    get:
+      summary: Get Account Orders
+      description: |-
+        Returns the Orders for the given accounts sorted descending, most recent order first.
+
+        #### Stateless Connection
+        Since the web-API provides a stateless connection, it only supports fetching the current state of Orders. If it is needed to display the intermediate state changes, it should be executed at client level.
+      operationId: getOrdersByAccounts
+      x-api-path-slug: accountsaccount-keysorders-get
+      parameters:
+      - in: query
+        name: access_token
+        description: A valid OAuth2 token used to authorize access to the resource
+      - in: path
+        name: account_keys
+        description: 1 or more Account Keys
+      - in: query
+        name: pageNum
+        description: Conveys the page number to return, given a set of orders and
+          a page size
+      - in: query
+        name: pageSize
+        description: Conveys the number of order items to return in the request
+      - in: query
+        name: since
+        description: Start Date from which to pull older orders
+      responses:
+        200:
+          description: Successful response
+      tags:
+      - Account
+      - Orders
+  /orders/confirm:
+    post:
+      summary: Confirm Order
+      description: |-
+        Returns estimated cost and commission information for an order without the order actually being placed. The fields that are returned in the response depend on the order type.
+        The following shows the different fields that will be returned.
+
+        **Base Confirmation**  (All confirmations will have these fields)
+        * Route
+        * Duration
+        * Account
+        * SummaryMessage
+        * OrderConfirmId
+
+        **Equity Confirmation** (Base Confirmation fields + the following)
+        * EstimatedPrice
+        * EstimatedPriceDisplay
+        * EstimatedCost
+        * EstimatedCostDisplay
+        * EstimatedCommission
+        * EstimatedCommissionDisplay
+        * DebitCreditEstimatedCost
+        * DebitCreditEstimatedCostDisplay
+
+        **Forex Confirmation** (Base Confirmation fields + the following)
+        * BaseCurrency
+        * CounterCurrency
+        * InitialMarginDisplay
+
+        **Futures Confirmation** (Base Confirmation fields + the following)
+        * ProductCurrency
+        * AccountCurrency
+        * EstimatedCost
+        * EstimatedPrice
+        * EstimatedPriceDisplay
+        * InitialMarginDisplay
+        * EstimatedCommission
+        * EstimatedCommissionDisplay
+      operationId: postOrderConfirm
+      x-api-path-slug: ordersconfirm-post
+      parameters:
+      - in: query
+        name: access_token
+        description: A valid OAuth2 token used to authorize access to the resource
+      - in: body
+        name: body
+        schema:
+          $ref: '#/definitions/holder'
+      responses:
+        200:
+          description: Successful response
+      tags:
+      - Confirm
+      - Order
+  /orders:
+    post:
+      summary: Submit Order
+      description: Submits 1 or more orders
+      operationId: postOrder
+      x-api-path-slug: orders-post
+      parameters:
+      - in: query
+        name: access_token
+        description: A valid OAuth2 token used to authorize access to the resource
+      - in: body
+        name: body
+        schema:
+          $ref: '#/definitions/holder'
+      responses:
+        200:
+          description: Successful response
+      tags:
+      - Submit
+      - Order
+  /orders/{order_id}:
+    delete:
+      summary: Cancel Order
+      description: Cancels an open order. You cannot cancel an order that has been
+        filled.
+      operationId: cancelOrder
+      x-api-path-slug: ordersorder-id-delete
+      parameters:
+      - in: query
+        name: access_token
+        description: A valid OAuth2 token used to authorize access to the resource
+      - in: path
+        name: order_id
+        description: An existing Order ID
+      responses:
+        200:
+          description: Successful response
+      tags:
+      - Cancel
+      - Order
 x-streamrank:
   polling_total_time_average: 0
   polling_size_download_average: 0
